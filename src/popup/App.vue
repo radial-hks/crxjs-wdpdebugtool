@@ -179,6 +179,35 @@ const clearLog = () => {
   receivedMessages.value = '';
 };
 
+const escapeHtmlForHighlight = (str: string) => 
+    str.replace(/&/g, '&amp;')
+       .replace(/</g, '&lt;')
+       .replace(/>/g, '&gt;')
+       .replace(/"/g, '&quot;')
+       .replace(/'/g, '&#039;');
+
+const highlightedInput = computed(() => {
+    const code = messageToSend.value;
+    if (jsonValidationClass.value === 'json-valid') {
+        try {
+            const highlighted = hljs.highlight(code, { language: 'json', ignoreIllegals: true }).value;
+            return `${highlighted}<br>`;
+        } catch (e) {
+            return `${escapeHtmlForHighlight(code)}<br>`;
+        }
+    }
+    return `${escapeHtmlForHighlight(code)}<br>`;
+});
+
+const syncScroll = (event: Event) => {
+  const editor = event.target as HTMLElement;
+  const highlighter = document.getElementById('highlighting');
+  if (highlighter) {
+    highlighter.scrollTop = editor.scrollTop;
+    highlighter.scrollLeft = editor.scrollLeft;
+  }
+};
+
 const highlightedMessages = computed(() => {
     const escapeHtml = (str: string) => str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -240,7 +269,8 @@ onMounted(() => {
       <div class="send-message">
         <h2><i class="fas fa-paper-plane"></i> Send Message (JSON)</h2>
         <div class="textarea-container">
-          <textarea id="messageToSend" rows="5" placeholder="Enter JSON message here..." v-model="messageToSend" @input="validateJsonInput"></textarea>
+          <pre id="highlighting" aria-hidden="true"><code class="language-json" v-html="highlightedInput"></code></pre>
+          <textarea id="messageToSend" rows="5" placeholder="Enter JSON message here..." v-model="messageToSend" @input="validateJsonInput" @scroll="syncScroll" spellcheck="false"></textarea>
           <div id="jsonValidationStatus" class="json-validation-status" :class="jsonValidationClass">{{ jsonValidationStatus }}</div>
         </div>
         <div class="button-group">
@@ -433,7 +463,50 @@ textarea:focus {
 .textarea-container {
     position: relative;
     margin-bottom: 15px;
-    width: calc(100% - 22px);
+    width: 100%;
+}
+
+#highlighting,
+#messageToSend {
+    margin: 0;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    width: 100%;
+    height: 120px;
+    overflow: auto;
+    white-space: pre;
+    word-wrap: normal;
+}
+
+#messageToSend {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    color: transparent;
+    background: transparent;
+    caret-color: var(--text-color);
+    resize: vertical;
+}
+
+#messageToSend:focus {
+  outline: none;
+}
+
+#highlighting {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#highlighting code {
+    display: block;
 }
 
 .json-validation-status {
