@@ -295,7 +295,7 @@ onMounted(() => {
       </div>
       <div class="button-group">
         <button id="connectBtn" @click="connectWebSocket" :disabled="connectBtnDisabled"><i class="fas fa-link"></i> Connect</button>
-        <button id="disconnectBtn" @click="disconnectWebSocket" :disabled="disconnectBtnDisabled"><i class="fas fa-unlink"></i> Disconnect</button>
+        <button id="disconnectBtn" @click="() => disconnectWebSocket()" :disabled="disconnectBtnDisabled"><i class="fas fa-unlink"></i> Disconnect</button>
       </div>
       <p class="status-display">Status: <span id="status">{{ status }}</span></p>
     </div>
