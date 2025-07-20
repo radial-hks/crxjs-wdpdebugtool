@@ -21,4 +21,12 @@ export default defineManifest({
     js: ['src/content/main.ts'],
     matches: ['https://*/*'],
   }],
+  permissions: [
+    'activeTab',
+    'storage'
+  ],
+  web_accessible_resources: [{
+    resources: ['src/popup/index.html'],
+    matches: ['<all_urls>']
+  }],
 })

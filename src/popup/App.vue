@@ -349,13 +349,15 @@ onMounted(() => {
     --transition: all 0.3s ease;
 }
 
-body {
+html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+    height: 100%;
+    width: 100%;
 }
 
 .container {
