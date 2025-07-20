@@ -6,21 +6,56 @@
       </button>
       <input v-if="!isCollapsed" type="file" @change="loadFile" accept=".md, .markdown" class="file-input" />
     </div>
-    <div v-if="!isCollapsed" class="markdown-content" v-html="renderedMarkdown" @click="handleContentClick"></div>
+    
+    <!-- Tab navigation -->
+    <div v-if="!isCollapsed && tabs.length > 0" class="tab-navigation">
+      <div class="tab-list">
+        <div 
+          v-for="tab in tabs" 
+          :key="tab.id"
+          class="tab-item"
+          :class="{ active: tab.id === activeTabId }"
+          @click="switchTab(tab.id)"
+        >
+          <span class="tab-title">{{ tab.title }}</span>
+          <button 
+            v-if="tabs.length > 1"
+            class="tab-close"
+            @click.stop="closeTab(tab.id)"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Markdown content -->
+    <div v-if="!isCollapsed" class="markdown-content" v-html="activeTabContent" @click="handleContentClick"></div>
     <div v-if="!isCollapsed" class="resize-handle" @mousedown="startResize"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 
-const renderedMarkdown = ref('');
+// Tab management
+const tabs = ref([]);
+const activeTabId = ref(null);
+let tabIdCounter = 0;
+
+// Sidebar state
 const isCollapsed = ref(false);
 const sidebarWidth = ref(300);
 const isResizing = ref(false);
 const emit = defineEmits(['insert-code']);
+
+// Computed property for active tab content
+const activeTabContent = computed(() => {
+  const activeTab = tabs.value.find(tab => tab.id === activeTabId.value);
+  return activeTab ? activeTab.content : '';
+});
 
 const md = new MarkdownIt({
   highlight: function (str, lang) {
@@ -45,15 +80,52 @@ const md = new MarkdownIt({
   }
 });
 
+// Tab management methods
+const addTab = (title, content) => {
+  const newTab = {
+    id: ++tabIdCounter,
+    title: title,
+    content: md.render(content)
+  };
+  tabs.value.push(newTab);
+  activeTabId.value = newTab.id;
+  return newTab.id;
+};
+
+const switchTab = (tabId) => {
+  activeTabId.value = tabId;
+};
+
+const closeTab = (tabId) => {
+  const tabIndex = tabs.value.findIndex(tab => tab.id === tabId);
+  if (tabIndex === -1) return;
+  
+  tabs.value.splice(tabIndex, 1);
+  
+  // If we closed the active tab, switch to another tab
+  if (activeTabId.value === tabId) {
+    if (tabs.value.length > 0) {
+      // Switch to the previous tab or the first tab
+      const newActiveIndex = Math.max(0, tabIndex - 1);
+      activeTabId.value = tabs.value[newActiveIndex].id;
+    } else {
+      activeTabId.value = null;
+    }
+  }
+};
+
 const loadFile = (event) => {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      renderedMarkdown.value = md.render(e.target.result);
+      const fileName = file.name.replace(/\.[^/.]+$/, ""); // Remove file extension
+      addTab(fileName, e.target.result);
     };
     reader.readAsText(file);
   }
+  // Clear the input so the same file can be loaded again
+  event.target.value = '';
 };
 
 const toggleCollapse = () => {
@@ -115,13 +187,13 @@ onMounted(async () => {
     const response = await fetch('/markdown/sample.md');
     if(response.ok){
       const markdownText = await response.text();
-      renderedMarkdown.value = md.render(markdownText);
+      addTab('Sample', markdownText);
     } else {
-      renderedMarkdown.value = 'Sample file not found. Please select a local file.';
+      addTab('Welcome', 'Sample file not found. Please select a local file.');
     }
   } catch (error) {
     console.error('Error loading or parsing markdown:', error);
-    renderedMarkdown.value = 'Error loading file. Please select a local file.';
+    addTab('Error', 'Error loading file. Please select a local file.');
   }
 });
 </script>
@@ -194,6 +266,72 @@ onMounted(async () => {
 
 .resize-handle:hover {
   background: #007acc;
+}
+
+.tab-navigation {
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+  font-size: 12px;
+  max-width: 120px;
+  transition: background-color 0.2s;
+}
+
+.tab-item:hover {
+  background: #e8e8e8;
+}
+
+.tab-item.active {
+  background: white;
+  border-color: #007acc;
+  color: #007acc;
+  font-weight: 500;
+}
+
+.tab-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+.tab-close {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  margin-left: 4px;
+}
+
+.tab-close:hover {
+  background: #ff4444;
+  color: white;
 }
 
 .sidebar :deep(.code-block-container) {

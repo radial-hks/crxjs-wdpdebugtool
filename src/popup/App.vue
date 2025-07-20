@@ -2,7 +2,8 @@
 import { ref, onMounted, computed, watch, nextTick } from 'vue';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
-import Sidebar from './components/Sidebar.vue';
+import Sidebar from './components/Sidebar.vue'
+import Dock from './components/Dock.vue';
 
 const wsUrl = ref('ws://localhost:5151');
 const status = ref('Idle');
@@ -262,6 +263,17 @@ const handleInsertCode = (code: string) => {
   });
 };
 
+const handleDockMessage = (message: string) => {
+  // Set the message content from Dock
+  messageToSend.value = message;
+  // Validate the content
+  validateJsonInput();
+  // Auto-send the message if connected and valid
+  if (websocket && websocket.readyState === WebSocket.OPEN && !sendBtnDisabled.value) {
+    sendMessage();
+  }
+};
+
 onMounted(() => {
   // Initial validation
   validateJsonInput();
@@ -309,6 +321,7 @@ onMounted(() => {
       </div>
     </div>
     </div>
+    <Dock @send-message="handleDockMessage" />
   </div>
 </template>
 

@@ -1,0 +1,75 @@
+{
+  "categories": [
+    { "id": "default", "name": "默认" },
+    { "id": "page", "name": "页面操作" },
+    { "id": "element", "name": "元素操作" },
+    { "id": "script", "name": "脚本执行" }
+  ],
+  "presets": [
+    {
+      "id": 1,
+      "categoryId": "page",
+      "label": "获取页面信息",
+      "icon": "📄",
+      "content": "{\n  \"action\": \"getPageInfo\",\n  \"params\": {}\n}",
+      "description": "获取当前页面的基本信息"
+    },
+    {
+      "id": 2,
+      "categoryId": "element",
+      "label": "获取元素",
+      "icon": "🎯",
+      "content": "{\n  \"action\": \"getElement\",\n  \"params\": {\n    \"selector\": \"body\"\n  }\n}",
+      "description": "获取页面元素"
+    },
+    {
+      "id": 3,
+      "categoryId": "script",
+      "label": "执行脚本",
+      "icon": "⚡",
+      "content": "{\n  \"action\": \"executeScript\",\n  \"params\": {\n    \"code\": \"console.log('Hello from extension!');\"\n  }\n}",
+      "description": "在页面中执行JavaScript代码"
+    },
+    {
+      "id": 4,
+      "categoryId": "page",
+      "label": "获取Cookie",
+      "icon": "🍪",
+      "content": "{\n  \"action\": \"getCookies\",\n  \"params\": {\n    \"url\": \"*\"\n  }\n}",
+      "description": "获取当前域名的Cookie"
+    },
+    {
+      "id": 5,
+      "categoryId": "page",
+      "label": "获取页面标题",
+      "icon": "📝",
+      "content": "{\n  \"action\": \"getPageTitle\",\n  \"params\": {}\n}",
+      "description": "获取当前页面的标题"
+    },
+    {
+      "id": 6,
+      "categoryId": "element",
+      "label": "点击元素",
+      "icon": "👆",
+      "content": "{\n  \"action\": \"clickElement\",\n  \"params\": {\n    \"selector\": \"button\"\n  }\n}",
+      "description": "点击指定的页面元素"
+    },
+    {
+      "id": 7,
+      "categoryId": "script",
+      "label": "获取页面URL",
+      "icon": "🔗",
+      "content": "{\n  \"action\": \"executeScript\",\n  \"params\": {\n    \"code\": \"window.location.href\"\n  }\n}",
+      "description": "获取当前页面的URL地址"
+    },
+    {
+      "id": 8,
+      "categoryId": "default",
+      "label": "测试连接",
+      "icon": "🔌",
+      "content": "{\n  \"action\": \"ping\",\n  \"params\": {}\n}",
+      "description": "测试WebSocket连接状态"
+    }
+  ],
+  "version": "1.0"
+}
