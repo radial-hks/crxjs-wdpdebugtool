@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, watch, nextTick } from 'vue';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
+import Sidebar from './components/Sidebar.vue';
 
 const wsUrl = ref('ws://localhost:5151');
 const status = ref('Idle');
@@ -241,6 +242,26 @@ watch(receivedMessages, async () => {
     }
 });
 
+const handleInsertCode = (code: string) => {
+  try {
+    // Try to parse as JSON and format it
+    const parsed = JSON.parse(code);
+    messageToSend.value = JSON.stringify(parsed, null, 2);
+  } catch (e) {
+    // If not valid JSON, insert as plain text
+    messageToSend.value = code;
+  }
+  // Validate the inserted content
+  validateJsonInput();
+  // Focus on the textarea
+  nextTick(() => {
+    const textarea = document.getElementById('messageToSend') as HTMLTextAreaElement;
+    if (textarea) {
+      textarea.focus();
+    }
+  });
+};
+
 onMounted(() => {
   // Initial validation
   validateJsonInput();
@@ -249,7 +270,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="app-container">
+    <Sidebar @insert-code="handleInsertCode" />
+    <div class="container">
     <h1><i class="fas fa-plug"></i> WDP Debug Tool</h1>
 
     <div class="connection-section">
@@ -279,17 +302,24 @@ onMounted(() => {
         </div>
       </div>
 
-            <div class="received-messages">
+      <div class="received-messages">
         <h2><i class="fas fa-inbox"></i> Received Messages</h2>
         <div id="receivedMessages" class="log-display" v-html="highlightedMessages"></div>
         <button id="clearLogBtn" @click="clearLog"><i class="fas fa-trash"></i> Clear Log</button>
       </div>
+    </div>
     </div>
   </div>
 </template>
 
 <style>
 /* Modern WebSocket Client Styles */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
 :root {
     --primary-color: #4a6fa5;
     --primary-hover: #3a5a8c;
@@ -309,16 +339,18 @@ onMounted(() => {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    flex: 1;
+    max-width: none;
+    margin: 0;
     padding: 20px;
+    overflow-y: auto;
 }
 
 .input-group {
