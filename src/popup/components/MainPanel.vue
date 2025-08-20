@@ -9,6 +9,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['message-sent']);
 
+const isConnectionOpen = ref(false);
 const wsUrl = ref('ws://localhost:5151');
 const status = ref('Idle');
 const messageToSend = ref('');
@@ -293,16 +294,21 @@ onMounted(() => {
     <h1><i class="fas fa-plug"></i> WDP Debug Tool</h1>
 
     <div class="connection-section">
-      <h2><i class="fas fa-network-wired"></i> Connection</h2>
-      <div class="input-group">
-        <label for="wsUrl">WebSocket URL:</label>
-        <input type="text" id="wsUrl" v-model="wsUrl" :disabled="wsUrlDisabled">
+      <h2 @click="isConnectionOpen = !isConnectionOpen" class="collapsible-header">
+        <i class="fas fa-network-wired"></i> Connection
+        <i class="fas fa-chevron-down" :class="{ 'rotated': !isConnectionOpen }"></i>
+      </h2>
+      <div v-if="isConnectionOpen" class="collapsible-content">
+        <div class="input-group">
+          <label for="wsUrl">WebSocket URL:</label>
+          <input type="text" id="wsUrl" v-model="wsUrl" :disabled="wsUrlDisabled">
+        </div>
+        <div class="button-group">
+          <button id="connectBtn" @click="connectWebSocket" :disabled="connectBtnDisabled"><i class="fas fa-link"></i> Connect</button>
+          <button id="disconnectBtn" @click="() => disconnectWebSocket()" :disabled="disconnectBtnDisabled"><i class="fas fa-unlink"></i> Disconnect</button>
+        </div>
+        <p class="status-display">Status: <span id="status">{{ status }}</span></p>
       </div>
-      <div class="button-group">
-        <button id="connectBtn" @click="connectWebSocket" :disabled="connectBtnDisabled"><i class="fas fa-link"></i> Connect</button>
-        <button id="disconnectBtn" @click="() => disconnectWebSocket()" :disabled="disconnectBtnDisabled"><i class="fas fa-unlink"></i> Disconnect</button>
-      </div>
-      <p class="status-display">Status: <span id="status">{{ status }}</span></p>
     </div>
 
     <div class="message-section">
@@ -337,6 +343,21 @@ onMounted(() => {
     height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+.collapsible-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collapsible-header .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.collapsible-header .fa-chevron-down.rotated {
+    transform: rotate(180deg);
 }
 
 .message-section {

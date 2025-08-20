@@ -180,8 +180,8 @@ textarea:focus {
     width: 100%;
     min-height: 120px;
     overflow: auto;
-    white-space: pre;
-    word-wrap: normal;
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 
 #messageToSend {

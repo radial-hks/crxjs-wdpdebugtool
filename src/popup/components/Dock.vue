@@ -683,6 +683,7 @@ onMounted(async () => {
 .import-export-buttons {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .import-button,
@@ -708,6 +709,7 @@ onMounted(async () => {
   gap: 8px;
   align-items: center;
   margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 
 .category-list {
@@ -783,6 +785,7 @@ onMounted(async () => {
   display: flex;
   gap: 8px;
   margin-top: 12px;
+  flex-wrap: wrap;
 }
 
 .add-button,

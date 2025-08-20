@@ -350,6 +350,8 @@ onMounted(async () => {
   border-radius: var(--border-radius);
   margin: 0;
   border: 1px solid var(--border-color);
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .sidebar :deep(pre:hover) {
