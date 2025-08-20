@@ -202,16 +202,19 @@ onMounted(async () => {
 .sidebar {
   position: relative;
   padding: 10px;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--border-color);
+  background-color: var(--card-bg);
   height: 100vh;
   overflow-y: auto;
   transition: width 0.3s ease;
   min-width: 40px;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar.collapsed {
   width: 40px !important;
-  padding: 5px;
+  padding: 10px 5px;
 }
 
 .sidebar-header {
@@ -219,88 +222,88 @@ onMounted(async () => {
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
+  padding: 0 5px;
 }
 
 .collapse-btn {
-  background: #007acc;
+  background: var(--primary-color);
   color: white;
   border: none;
   padding: 5px 8px;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 12px;
   min-width: 24px;
+  transition: var(--transition);
 }
 
 .collapse-btn:hover {
-  background: #005a9e;
+  background: var(--primary-hover);
 }
 
 .file-input {
   flex: 1;
   padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 12px;
 }
 
 .markdown-content {
   flex: 1;
   overflow-y: auto;
+  padding: 0 10px;
 }
 
 .resize-handle {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -2px;
   width: 4px;
   height: 100%;
-  background: #ccc;
+  background: transparent;
   cursor: ew-resize;
-  opacity: 0;
-  transition: opacity 0.2s;
+  transition: background-color 0.2s;
 }
 
 .sidebar:hover .resize-handle {
-  opacity: 1;
-}
-
-.resize-handle:hover {
-  background: #007acc;
+  background-color: var(--primary-color);
 }
 
 .tab-navigation {
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 10px;
 }
 
 .tab-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px;
+  gap: 4px;
+  padding: 0 5px;
 }
 
 .tab-item {
   display: flex;
   align-items: center;
   padding: 6px 12px;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
   border-bottom: none;
   border-radius: 4px 4px 0 0;
   cursor: pointer;
   font-size: 12px;
   max-width: 120px;
-  transition: background-color 0.2s;
+  transition: var(--transition);
 }
 
 .tab-item:hover {
-  background: #e8e8e8;
+  background: #e9ecef;
 }
 
 .tab-item.active {
-  background: white;
-  border-color: #007acc;
-  color: #007acc;
+  background: var(--card-bg);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
   font-weight: 500;
 }
 
@@ -315,60 +318,62 @@ onMounted(async () => {
 .tab-close {
   background: none;
   border: none;
-  color: #666;
+  color: var(--text-color-light);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   padding: 0;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
+  border-radius: 50%;
   margin-left: 4px;
+  transition: var(--transition);
 }
 
 .tab-close:hover {
-  background: #ff4444;
+  background: var(--secondary-color);
   color: white;
 }
 
 .sidebar :deep(.code-block-container) {
   position: relative;
-  margin: 10px 0;
+  margin: 1em 0;
 }
 
 .sidebar :deep(pre) {
   cursor: pointer;
   background-color: #f5f5f5;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 1em;
+  border-radius: var(--border-radius);
   margin: 0;
+  border: 1px solid var(--border-color);
 }
 
 .sidebar :deep(pre:hover) {
-  background-color: #eee;
+  background-color: #e9ecef;
+  border-color: var(--primary-color);
 }
 
 .sidebar :deep(.copy-btn) {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  background: #007acc;
+  top: 8px;
+  right: 8px;
+  background: var(--primary-color);
   color: white;
   border: none;
   padding: 4px 8px;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 11px;
-  opacity: 0.8;
+  opacity: 0;
   transition: opacity 0.2s;
 }
 
 .sidebar :deep(.copy-btn:hover) {
-  opacity: 1;
-  background: #005a9e;
+  background: var(--primary-hover);
 }
 
 .sidebar :deep(.code-block-container:hover .copy-btn) {

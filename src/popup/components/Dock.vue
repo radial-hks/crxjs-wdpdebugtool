@@ -448,16 +448,13 @@ onMounted(async () => {
 
 <style scoped>
 .dock-container {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 320px;
+  width: 280px;
   height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 20px;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  padding: 10px;
+  border-left: 1px solid var(--border-color);
+  z-index: 10;
   transition: all 0.3s ease;
   overflow-y: auto;
   display: flex;
@@ -465,44 +462,44 @@ onMounted(async () => {
 }
 
 .dock-container.collapsed {
-  width: 60px;
-  padding: 10px;
+  width: 40px;
+  padding: 10px 5px;
 }
 
 .dock-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  padding: 0 5px;
   flex-shrink: 0;
 }
 
 .dock-header h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: 600;
   transition: opacity 0.3s ease;
 }
 
 .dock-toggle {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--primary-color);
   border: none;
   color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  transition: all 0.2s ease;
+  font-size: 12px;
+  transition: var(--transition);
   flex-shrink: 0;
 }
 
 .dock-toggle:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+  background: var(--primary-hover);
 }
 
 .dock-content {
@@ -515,56 +512,57 @@ onMounted(async () => {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 12px;
 }
 
 .category-tab {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 6px 12px;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 4px 10px;
   border-radius: 16px;
   cursor: pointer;
   font-size: 12px;
-  transition: all 0.2s ease;
+  transition: var(--transition);
   white-space: nowrap;
 }
 
 .category-tab:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #e9ecef;
+  border-color: var(--primary-color);
 }
 
 .category-tab.active {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
   font-weight: 500;
 }
 
 .button-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .dock-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 12px;
+  background: #f8f9fa;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
+  transition: var(--transition);
   display: flex;
   align-items: center;
   text-align: left;
 }
 
 .dock-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #e9ecef;
+  transform: translateY(-1px);
+  box-shadow: var(--box-shadow);
 }
 
 .button-icon {
@@ -575,30 +573,31 @@ onMounted(async () => {
 .button-label {
   font-weight: 500;
   font-size: 14px;
-  color: white;
+  color: var(--text-color);
 }
 
 .dock-footer {
   padding: 10px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin-top: 16px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 12px;
 }
 
 .config-button {
   width: 100%;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
+  padding: 8px 12px;
+  background: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: var(--transition);
 }
 
 .config-button:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #e9ecef;
+  border-color: var(--primary-color);
 }
 
 .config-overlay {
@@ -607,74 +606,77 @@ onMounted(async () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(4px);
 }
 
 .config-panel {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  padding: 24px;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
   width: 90%;
-  max-width: 600px;
+  max-width: 500px;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .config-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
 }
 
 .config-header h4 {
   margin: 0;
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: white;
+  color: var(--text-color);
 }
 
 .close-button {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  transition: all 0.2s ease;
+  transition: var(--transition);
 }
 
 .close-button:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
 }
 
 .import-export-section,
 .category-management,
 .preset-form,
 .preset-management {
-  margin-bottom: 24px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 16px;
+  margin-bottom: 20px;
+  background: var(--background-color);
+  border-radius: var(--border-radius);
+  padding: 12px;
+  border: 1px solid var(--border-color);
 }
 
 .section-title {
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-color);
   margin-bottom: 12px;
 }
 
@@ -685,20 +687,20 @@ onMounted(async () => {
 
 .import-button,
 .export-button {
-  background: rgba(76, 175, 80, 0.8);
+  background: var(--info-color);
   color: white;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: var(--transition);
 }
 
 .import-button:hover,
 .export-button:hover {
-  background: rgba(76, 175, 80, 1);
+  opacity: 0.9;
 }
 
 .category-form {
@@ -718,27 +720,28 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 4px 12px;
+  padding: 4px 10px;
   font-size: 12px;
 }
 
 .add-category-button {
-  background: rgba(76, 175, 80, 0.8);
+  background: var(--success-color);
   color: white;
   padding: 6px 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: var(--transition);
   white-space: nowrap;
 }
 
 .add-category-button:hover {
-  background: rgba(76, 175, 80, 1);
+  opacity: 0.9;
 }
 
 .config-input,
@@ -746,13 +749,13 @@ onMounted(async () => {
 .config-select {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--card-bg);
+  color: var(--text-color);
   font-size: 13px;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+  transition: var(--transition);
   margin-bottom: 8px;
 }
 
@@ -760,63 +763,63 @@ onMounted(async () => {
 .config-textarea:focus,
 .config-select:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(58, 127, 255, 0.2);
 }
 
 .config-input::placeholder,
 .config-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: #999;
 }
 
 .config-textarea {
   min-height: 100px;
   resize: vertical;
-  font-family: 'Courier New', monospace;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   line-height: 1.4;
 }
 
 .config-buttons {
   display: flex;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .add-button,
 .reset-button {
   flex: 1;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: var(--transition);
 }
 
 .add-button {
-  background: rgba(76, 175, 80, 0.8);
+  background: var(--success-color);
   color: white;
 }
 
 .add-button:hover {
-  background: rgba(76, 175, 80, 1);
+  opacity: 0.9;
 }
 
 .reset-button {
-  background: rgba(244, 67, 54, 0.8);
+  background: var(--secondary-color);
   color: white;
 }
 
 .reset-button:hover {
-  background: rgba(244, 67, 54, 1);
+  opacity: 0.9;
 }
 
 .preset-list {
-  max-height: 200px;
+  max-height: 150px;
   overflow-y: auto;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
   padding: 8px;
 }
 
@@ -824,16 +827,18 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
   padding: 8px 12px;
   margin-bottom: 6px;
   font-size: 12px;
-  transition: all 0.2s ease;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
 }
 
 .preset-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: #e9ecef;
+  border-color: var(--primary-color);
 }
 
 .preset-info {
@@ -851,22 +856,22 @@ onMounted(async () => {
 }
 
 .remove-button {
-  background: rgba(244, 67, 54, 0.8);
+  background: var(--secondary-color);
   border: none;
   color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   cursor: pointer;
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: var(--transition);
 }
 
 .remove-button:hover {
-  background: rgba(244, 67, 54, 1);
+  opacity: 0.9;
 }
 
 /* Collapsed state styles */
@@ -877,8 +882,8 @@ onMounted(async () => {
 }
 
 .dock-container.collapsed .dock-toggle {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   font-size: 12px;
 }
 
@@ -889,14 +894,14 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-color-light);
 }
 
 .loading-spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top: 3px solid rgba(255, 255, 255, 0.8);
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top: 3px solid var(--primary-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -910,7 +915,7 @@ onMounted(async () => {
 .loading-state p {
   margin: 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-color-light);
 }
 
 /* Scrollbar styles */
@@ -923,20 +928,20 @@ onMounted(async () => {
 .dock-container::-webkit-scrollbar-track,
 .config-panel::-webkit-scrollbar-track,
 .preset-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--background-color);
   border-radius: 3px;
 }
 
 .dock-container::-webkit-scrollbar-thumb,
 .config-panel::-webkit-scrollbar-thumb,
 .preset-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: #ccc;
   border-radius: 3px;
 }
 
 .dock-container::-webkit-scrollbar-thumb:hover,
 .config-panel::-webkit-scrollbar-thumb:hover,
 .preset-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: #999;
 }
 </style>
