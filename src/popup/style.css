@@ -151,7 +151,7 @@ textarea {
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-size: 0.9rem;
     line-height: 1.5;
-    resize: vertical;
+    resize: none;
     transition: var(--transition);
 }
 
@@ -182,6 +182,9 @@ textarea:focus {
     overflow: auto;
     white-space: pre-wrap;
     word-break: break-all;
+    letter-spacing: normal;
+    word-spacing: normal;
+    resize: none;
 }
 
 #messageToSend {
@@ -208,6 +211,10 @@ textarea:focus {
 
 #highlighting code {
     display: block;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
 }
 
 .json-validation-status {

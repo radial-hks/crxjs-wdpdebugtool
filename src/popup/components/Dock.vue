@@ -727,6 +727,8 @@ onMounted(async () => {
   border-radius: 16px;
   padding: 4px 10px;
   font-size: 12px;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .add-category-button {
