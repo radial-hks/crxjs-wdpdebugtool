@@ -6,7 +6,7 @@ async def echo(websocket):
         await websocket.send(message)
 
 async def main():
-    async with websockets.serve(echo, "localhost", 8765):
+    async with websockets.serve(echo, "localhost", 5151):
         await asyncio.Future()  # run forever
 
 if __name__ == "__main__":
