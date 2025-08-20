@@ -864,15 +864,17 @@ onMounted(async () => {
   background: var(--secondary-color);
   border: none;
   color: white;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  min-width: 40px;
+  height: 24px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: var(--transition);
+  padding: 0 8px;
+  white-space: nowrap;
 }
 
 .remove-button:hover {

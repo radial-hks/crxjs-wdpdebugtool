@@ -184,7 +184,7 @@ textarea:focus {
     word-break: break-all;
     letter-spacing: normal;
     word-spacing: normal;
-    resize: none;
+    resize: vertical;
 }
 
 #messageToSend {
@@ -195,10 +195,16 @@ textarea:focus {
     color: transparent;
     background: transparent;
     caret-color: var(--text-color);
-    resize: vertical;
 }
 
-#messageToSend:focus {
+#highlighting {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+    color: var(--text-color);
+}
+
+#highlighting:focus {
   outline: none;
 }
 

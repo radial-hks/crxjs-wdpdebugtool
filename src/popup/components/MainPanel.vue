@@ -216,6 +216,43 @@ const syncScroll = (event: Event) => {
   }
 };
 
+// 添加新的同步尺寸函数
+const syncSize = () => {
+  const editor = document.getElementById('messageToSend') as HTMLTextAreaElement;
+  const highlighter = document.getElementById('highlighting');
+  if (editor && highlighter) {
+    highlighter.style.height = editor.style.height || `${editor.offsetHeight}px`;
+    highlighter.style.width = editor.style.width || `${editor.offsetWidth}px`;
+  }
+};
+
+// 监听textarea尺寸变化
+const setupResizeObserver = () => {
+  const editor = document.getElementById('messageToSend');
+  if (editor && window.ResizeObserver) {
+    const resizeObserver = new ResizeObserver(() => {
+      syncSize();
+    });
+    resizeObserver.observe(editor);
+  }
+};
+
+onMounted(() => {
+  validateJsonInput();
+  setupResizeObserver();
+  // 初始同步
+  nextTick(() => {
+    syncSize();
+  });
+});
+
+// 在内容变化时也同步尺寸
+watch(messageToSend, () => {
+  nextTick(() => {
+    syncSize();
+  });
+});
+
 const highlightedMessages = computed(() => {
     const escapeHtml = (str: string) => str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -316,7 +353,16 @@ onMounted(() => {
         <h2><i class="fas fa-paper-plane"></i> Send Message (JSON)</h2>
         <div class="textarea-container">
           <pre id="highlighting" aria-hidden="true"><code class="language-json" v-html="highlightedInput"></code></pre>
-          <textarea id="messageToSend" rows="5" placeholder="Enter JSON message here..." v-model="messageToSend" @input="validateJsonInput" @scroll="syncScroll" spellcheck="false"></textarea>
+          <textarea 
+            id="messageToSend" 
+            rows="5" 
+            placeholder="Enter JSON message here..." 
+            v-model="messageToSend" 
+            @input="validateJsonInput" 
+            @scroll="syncScroll"
+            @mouseup="syncSize"
+            spellcheck="false"
+          ></textarea>
           <div id="jsonValidationStatus" class="json-validation-status" :class="jsonValidationClass">{{ jsonValidationStatus }}</div>
         </div>
         <div class="button-group">
