@@ -4,10 +4,11 @@
       <button @click="toggleCollapse" class="collapse-btn">
         {{ isCollapsed ? '▶' : '◀' }}
       </button>
+      <!-- 只在非折叠状态显示文件输入 -->
       <input v-if="!isCollapsed" type="file" @change="loadFile" accept=".md, .markdown" class="file-input" />
     </div>
     
-    <!-- Tab navigation -->
+    <!-- 只在非折叠状态显示标签导航 -->
     <div v-if="!isCollapsed && tabs.length > 0" class="tab-navigation">
       <div class="tab-list">
         <div 
@@ -29,7 +30,7 @@
       </div>
     </div>
     
-    <!-- Markdown content -->
+    <!-- 只在非折叠状态显示内容 -->
     <div v-if="!isCollapsed" class="markdown-content" v-html="activeTabContent" @click="handleContentClick"></div>
     <div v-if="!isCollapsed" class="resize-handle" @mousedown="startResize"></div>
   </div>
@@ -45,9 +46,9 @@ const tabs = ref([]);
 const activeTabId = ref(null);
 let tabIdCounter = 0;
 
-// Sidebar state
-const isCollapsed = ref(false);
-const sidebarWidth = ref(300);
+// 修改默认状态为折叠
+const isCollapsed = ref(true);
+const sidebarWidth = ref(40); // 默认为折叠宽度
 const isResizing = ref(false);
 const emit = defineEmits(['insert-code']);
 
@@ -184,10 +185,10 @@ const handleContentClick = (event) => {
 onMounted(async () => {
   try {
     // Load a default/sample file on initial mount
-    const response = await fetch('/markdown/sample.md');
+    const response = await fetch('/markdown/Normative.md');
     if(response.ok){
       const markdownText = await response.text();
-      addTab('Sample', markdownText);
+      addTab('Default', markdownText);
     } else {
       addTab('Welcome', 'Sample file not found. Please select a local file.');
     }
@@ -213,8 +214,39 @@ onMounted(async () => {
 }
 
 .sidebar.collapsed {
-  width: 40px !important;
-  padding: 10px 5px;
+  width: 0 !important;
+  padding: 0;
+  background-color: transparent;
+  border-right: none;
+  overflow: visible;
+}
+
+.sidebar.collapsed .sidebar-header {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  z-index: 1000;
+  justify-content: center;
+  gap: 0;
+  background-color: var(--card-bg);
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+}
+
+.sidebar.collapsed .sidebar-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
 }
 
 .sidebar-header {
@@ -223,6 +255,12 @@ onMounted(async () => {
   gap: 10px;
   margin-bottom: 10px;
   padding: 0 5px;
+}
+
+/* 在折叠状态下居中显示按钮 */
+.sidebar.collapsed .sidebar-header {
+  justify-content: center;
+  gap: 0;
 }
 
 .collapse-btn {

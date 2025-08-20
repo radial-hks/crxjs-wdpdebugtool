@@ -336,13 +336,13 @@ onMounted(() => {
         <i class="fas fa-chevron-down" :class="{ 'rotated': !isConnectionOpen }"></i>
       </h2>
       <div v-if="isConnectionOpen" class="collapsible-content">
-        <div class="input-group">
+        <div class="url-input-group">
           <label for="wsUrl">WebSocket URL:</label>
-          <input type="text" id="wsUrl" v-model="wsUrl" :disabled="wsUrlDisabled">
-        </div>
-        <div class="button-group">
-          <button id="connectBtn" @click="connectWebSocket" :disabled="connectBtnDisabled"><i class="fas fa-link"></i> Connect</button>
-          <button id="disconnectBtn" @click="() => disconnectWebSocket()" :disabled="disconnectBtnDisabled"><i class="fas fa-unlink"></i> Disconnect</button>
+          <div class="url-input-row">
+            <input type="text" id="wsUrl" v-model="wsUrl" :disabled="wsUrlDisabled">
+            <button id="connectBtn" @click="connectWebSocket" :disabled="connectBtnDisabled"><i class="fas fa-link"></i> Connect</button>
+            <button id="disconnectBtn" @click="() => disconnectWebSocket()" :disabled="disconnectBtnDisabled"><i class="fas fa-unlink"></i> Disconnect</button>
+          </div>
         </div>
         <p class="status-display">Status: <span id="status">{{ status }}</span></p>
       </div>
@@ -408,6 +408,14 @@ onMounted(() => {
 
 .message-section {
     flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    min-height: 0;
+}
+
+.send-message {
+    flex: 0 0 40%;
     display: flex;
     flex-direction: column;
     min-height: 0;

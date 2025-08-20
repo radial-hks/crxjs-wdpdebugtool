@@ -1,12 +1,14 @@
 <template>
   <div class="dock-container" :class="{ collapsed: isCollapsed }">
     <div class="dock-header">
+      <!-- 只在非折叠状态显示标题 -->
       <h3 v-if="!isCollapsed">快捷测试</h3>
       <button class="dock-toggle" @click="toggleDock">
         {{ isCollapsed ? '◀' : '▶' }}
       </button>
     </div>
     
+    <!-- 只在非折叠状态显示内容 -->
     <div v-if="!isCollapsed" class="dock-content">
       <!-- Loading state -->
       <div v-if="isLoading" class="loading-state">
@@ -131,7 +133,8 @@ import { ref, computed, onMounted } from 'vue';
 
 const emit = defineEmits(['send-message']);
 
-const isCollapsed = ref(false);
+// 修改默认状态为折叠
+const isCollapsed = ref(true);
 const showConfig = ref(false);
 const activeCategory = ref('default');
 const isLoading = ref(true);
@@ -462,8 +465,39 @@ onMounted(async () => {
 }
 
 .dock-container.collapsed {
+  width: 0 !important;
+  padding: 0;
+  background-color: transparent;
+  border-left: none;
+  overflow: visible;
+}
+
+.dock-container.collapsed .dock-header {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  z-index: 1000;
+  justify-content: center;
+  gap: 0;
+  background-color: var(--card-bg);
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
   width: 40px;
-  padding: 10px 5px;
+  height: 40px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+}
+
+.dock-container.collapsed .dock-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
 }
 
 .dock-header {
@@ -473,6 +507,11 @@ onMounted(async () => {
   margin-bottom: 10px;
   padding: 0 5px;
   flex-shrink: 0;
+}
+
+/* 在折叠状态下居中显示按钮 */
+.dock-container.collapsed .dock-header {
+  justify-content: center;
 }
 
 .dock-header h3 {

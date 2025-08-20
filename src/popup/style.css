@@ -178,7 +178,7 @@ textarea:focus {
     font-size: 0.9rem;
     line-height: 1.5;
     width: 100%;
-    min-height: 120px;
+    min-height: 300px;  /* 从120px改为300px */
     overflow: auto;
     white-space: pre-wrap;
     word-break: break-all;
@@ -267,4 +267,36 @@ textarea:focus {
 .code-block .hljs {
   padding: 0;
   background: transparent;
+}
+
+/* 在现有样式后面添加以下新样式 */
+
+.url-input-group {
+    margin-bottom: 16px;
+}
+
+.url-input-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.url-input-row input[type="text"] {
+    flex: 1;
+    margin: 0;
+    width: auto; /* 覆盖原有的width: 100% */
+}
+
+.url-input-row button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    min-width: auto;
+}
+
+/* 调整状态显示的间距 */
+.status-display {
+    margin-top: 12px;
+    margin-bottom: 0;
 }
